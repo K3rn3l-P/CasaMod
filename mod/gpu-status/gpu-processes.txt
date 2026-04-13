@@ -1,2 +1,0 @@
-#Container,VRAM (MB),Processo
-#wyoming-piper-gpu,242,piper
