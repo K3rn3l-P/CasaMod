@@ -1,2 +1,2 @@
 gpu_name,driver_version,cuda_version,temperature,utilization,memory_used,memory_total,power_usage,power_cap
-NVIDIA GeForce RTX 2070,535.261.03,12.2,38,0,2035,8192,3.97,175.00
+NVIDIA GeForce RTX 2070,535.261.03,12.2,37,0,2035,8192,4.70,175.00

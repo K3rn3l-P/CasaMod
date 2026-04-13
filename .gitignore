@@ -1,0 +1,11 @@
+# Ignore generated module output files
+mod/*/nvidia-smi.txt
+mod/*/gpu-processes.txt
+mod/*/containers.json
+
+# Ignore generated Python artifacts
+**/__pycache__/
+**/*.py[cod]
+
+# Ignore temporary shell output
+*.log
