@@ -1,7 +1,7 @@
 .gpu-status-widget {
   width: 100%;
-  max-width: 340px;
-  margin: 0 auto;
+  max-width: 100%;
+  margin: 0;
 }
 
 .gpu-status-widget .widget-content {

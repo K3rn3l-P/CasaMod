@@ -2,10 +2,11 @@
     opacity: 0;
 }
 
+
 .widget-sortable-control {
   width: 100%;
-  max-width: 340px;
-  margin: 0 auto 12px;
+  max-width: 100%;
+  margin: 0 0 12px;
   padding: 0;
 }
 

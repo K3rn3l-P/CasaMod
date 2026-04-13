@@ -44,7 +44,7 @@
         const toggleButton = document.querySelector('.widget-sortable-toggle-button');
         const toggleSubtitle = document.querySelector('.widget-sortable-subtitle');
         let enabled = localStorage.getItem(storageKey);
-        enabled = enabled === null ? true : enabled === 'true';
+        enabled = enabled === null ? false : enabled === 'true';
 
         const sortable = Sortable.create(container, {
             group: {
