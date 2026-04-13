@@ -13,7 +13,6 @@ Questa mod aggiunge una card per visualizzare lo stato della GPU NVIDIA come wid
 - `nvidia-smi.txt` — file che contiene l'output di `nvidia-smi`.
 - `nvidia-smi-processes` — script che genera `gpu-processes.txt`.
 - `gpu-processes.txt` — file che contiene la lista compatta dei processi GPU in formato CSV (Processo, VRAM (MB), Container), necessario per la tendina processi.
-- `mod.html` / `mod.json` — non sono necessari per il widget dashboard; CasaMOD carica `mod.js` direttamente.
 
 ## Come funziona
 Il widget viene inserito nell'area `.ps-container` della dashboard, come fanno gli altri mod tipo `notes`.
