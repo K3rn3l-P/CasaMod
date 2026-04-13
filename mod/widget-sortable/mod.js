@@ -3,8 +3,31 @@
 
 (function () {
     const observedAnchor = '.ps-container';
+    const storageKey = 'widget-sortable-enabled';
+
     function moduleFunction() {
         console.log("widget-sortable Enable")
+        const container = document.querySelector(observedAnchor);
+        if (!container) return;
+
+        const existingControl = document.querySelector('[widget-id="widget-sortable-control"]');
+        if (!existingControl) {
+            const controlCard = document.createElement('div');
+            controlCard.setAttribute('widget-id', 'widget-sortable-control');
+            controlCard.className = 'widget widget-sortable-control';
+            controlCard.innerHTML = `
+<div class="blur-background"></div>
+<div class="widget-content">
+  <div class="widget-header is-flex is-align-items-center" style="justify-content: space-between; gap: 10px;">
+    <div class="widget-title-section is-flex-grow-1">
+      <div class="widget-sortable-title">Modifica widget</div>
+      <div class="widget-sortable-subtitle">Attiva/disattiva l'ordinamento drag & drop</div>
+    </div>
+    <button type="button" class="widget-sortable-toggle-button" title="Attiva/disattiva modifica widget">Caricamento...</button>
+  </div>
+</div>`;
+            container.insertBefore(controlCard, container.firstChild);
+        }
 
         // 为 div 添加 widget-id 属性，用于记录位置
         addWidgetId('clock');
@@ -14,17 +37,24 @@
 
         // 增加网络状态插件margin-bottom
         var network_widget = document.querySelector(".last-block");
-        network_widget.style.marginBottom = '16px';
+        if (network_widget) {
+            network_widget.style.marginBottom = '16px';
+        }
 
-        // 获取插件父节点
-        Sortable.create(document.querySelector(".ps-container"), {
+        const toggleButton = document.querySelector('.widget-sortable-toggle-button');
+        const toggleSubtitle = document.querySelector('.widget-sortable-subtitle');
+        let enabled = localStorage.getItem(storageKey);
+        enabled = enabled === null ? true : enabled === 'true';
+
+        const sortable = Sortable.create(container, {
             group: {
                 name: "widget-sortable"
             },
             animation: 500,
             ghostClass: "sortable-ghost",
-            filter: ".ps__rail-x, .ps__rail-y",
+            filter: ".ps__rail-x, .ps__rail-y, .widget-sortable-control",
             dataIdAttr: "widget-id",
+            disabled: !enabled,
             store: {
                 // 缓存到localStorage
                 get: function (sortable) {
@@ -37,6 +67,28 @@
                 }
             }
         });
+
+        function updateToggle() {
+            const stateLabel = enabled ? 'Disattiva modifica' : 'Attiva modifica';
+            const subtitle = enabled ? 'Drag & drop attivo' : 'Drag & drop disattivato';
+            if (toggleButton) toggleButton.textContent = stateLabel;
+            if (toggleSubtitle) toggleSubtitle.textContent = subtitle;
+            const controlCard = document.querySelector('.widget-sortable-control');
+            if (controlCard) {
+                controlCard.classList.toggle('enabled', enabled);
+            }
+        }
+
+        if (toggleButton) {
+            toggleButton.addEventListener('click', () => {
+                enabled = !enabled;
+                localStorage.setItem(storageKey, String(enabled));
+                sortable.option('disabled', !enabled);
+                updateToggle();
+            });
+        }
+
+        updateToggle();
     }
 
     function addWidgetId(elementClass, parent = 1) {

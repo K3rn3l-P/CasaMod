@@ -1,3 +1,49 @@
 .sortable-ghost {
     opacity: 0;
 }
+
+.widget-sortable-control {
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto 12px;
+  padding: 0;
+}
+
+.widget-sortable-control .widget-content {
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+}
+
+.widget-sortable-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #eff3ff;
+}
+
+.widget-sortable-subtitle {
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.widget-sortable-toggle-button {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  padding: 6px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.82rem;
+}
+
+.widget-sortable-toggle-button:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.widget-sortable-control.enabled .widget-sortable-toggle-button {
+  background: rgba(92, 214, 136, 0.14);
+  border-color: rgba(92, 214, 136, 0.24);
+}

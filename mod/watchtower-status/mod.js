@@ -29,30 +29,46 @@
   <div class="watchtower-body">
     <div class="watchtower-status-row">
       <div class="watchtower-badge watchtower-status-unknown">Caricamento...</div>
-      <div class="watchtower-updated-at">Ultimo controllo: —</div>
+      <button type="button" class="watchtower-collapse-toggle" aria-expanded="false">
+        <span class="watchtower-collapse-arrow">&#9654;</span>
+        <span class="watchtower-collapse-label">Mostra dettagli</span>
+      </button>
     </div>
-    <div class="watchtower-summary">Carica lo stato da <code>/mod/watchtower-status/status.json</code>.</div>
-    <div class="watchtower-counters">
-      <div class="watchtower-counter"><span>Aggiornati</span><strong>—</strong></div>
-      <div class="watchtower-counter"><span>In attesa</span><strong>—</strong></div>
-      <div class="watchtower-counter"><span>Falliti</span><strong>—</strong></div>
-    </div>
-    <div class="watchtower-list" id="watchtower-items"></div>
-    <div class="watchtower-log-panel">
-      <div class="watchtower-log-title">Ultimi log</div>
-      <pre class="watchtower-log-content">Caricamento...</pre>
+    <div class="watchtower-updated-at">Ultimo controllo: —</div>
+    <div class="watchtower-collapsible-body collapsed">
+      <div class="watchtower-summary">Carica lo stato da <code>/mod/watchtower-status/status.json</code>.</div>
+      <div class="watchtower-counters">
+        <div class="watchtower-counter"><span>Aggiornati</span><strong>—</strong></div>
+        <div class="watchtower-counter"><span>In attesa</span><strong>—</strong></div>
+        <div class="watchtower-counter"><span>Falliti</span><strong>—</strong></div>
+      </div>
+      <div class="watchtower-list" id="watchtower-items"></div>
+      <div class="watchtower-log-panel">
+        <div class="watchtower-log-title">Ultimi log</div>
+        <pre class="watchtower-log-content">Caricamento...</pre>
+      </div>
     </div>
   </div>
 </div>`;
 
     container.insertBefore(widget, container.firstChild);
     const refreshButton = widget.querySelector('.watchtower-refresh');
+    const bodyToggle = widget.querySelector('.watchtower-collapse-toggle');
+    const collapsibleBody = widget.querySelector('.watchtower-collapsible-body');
     const badge = widget.querySelector('.watchtower-badge');
     const updatedAt = widget.querySelector('.watchtower-updated-at');
     const summary = widget.querySelector('.watchtower-summary');
     const counters = widget.querySelector('.watchtower-counters');
     const items = widget.querySelector('#watchtower-items');
     const logContent = widget.querySelector('.watchtower-log-content');
+
+    bodyToggle.addEventListener('click', () => {
+      const expanded = bodyToggle.getAttribute('aria-expanded') === 'true';
+      bodyToggle.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+      bodyToggle.querySelector('.watchtower-collapse-arrow').style.transform = expanded ? '' : 'rotate(90deg)';
+      bodyToggle.querySelector('.watchtower-collapse-label').textContent = expanded ? 'Mostra dettagli' : 'Nascondi dettagli';
+      collapsibleBody.classList.toggle('collapsed', expanded);
+    });
 
     async function loadStatus() {
       refreshButton.disabled = true;
