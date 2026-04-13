@@ -1,0 +1,19 @@
+{
+  "generated_at": "2026-04-13T00:00:00Z",
+  "containers": [
+    {
+      "id": "a1b2c3d4e5f6",
+      "name": "myapp_web_1",
+      "service": "web",
+      "image": "nginx:latest",
+      "state": "running",
+      "status": "Up 2 hours",
+      "cpu": 2.3,
+      "memory": 145.2,
+      "memory_limit": 512,
+      "project": "myapp",
+      "restart_command": "docker compose restart web",
+      "stop_command": "docker compose stop web"
+    }
+  ]
+}
