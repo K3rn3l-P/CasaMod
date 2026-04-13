@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+OUT="/DATA/AppData/casamod/mod/gpu-status/gpu-processes.txt"
+echo "Container,VRAM (MB),Processo" > "$OUT"
+
+# Costruisci la mappa CONTAINERID_12C → Nome
+declare -A ID2NAME
+while read -r id name; do
+  shortid="${id:0:12}"
+  ID2NAME["$shortid"]="$name"
+done < <(docker ps --format '{{.ID}} {{.Names}}')
+
+# Elenca i processi sulla GPU
+nvidia-smi --query-compute-apps=pid,process_name,used_gpu_memory --format=csv,noheader,nounits | \
+while IFS=, read -r pid process_name vram; do
+  pid="$(echo "$pid" | xargs)"
+  process_name="$(echo "$process_name" | xargs)"
+  vram="$(echo "$vram" | xargs)"
+  short_proc="$(basename "${process_name}" | cut -c1-28)"
+
+  container="(host)"
+  if [[ -r "/proc/$pid/cgroup" ]]; then
+    cid_12s=$(grep -oE 'docker[-/][0-9a-f]{12}' /proc/"$pid"/cgroup | grep -oE '[0-9a-f]{12}')
+    found=""
+    for cid in $cid_12s; do
+      name="${ID2NAME[$cid]}"
+      if [[ -n "$name" ]]; then
+        found="$name"
+        break
+      fi
+    done
+    if [[ -n "$found" ]]; then
+      container="$found"
+    fi
+  fi
+
+  printf "%s,%s,%s\n" "$container" "$vram" "$short_proc" >> "$OUT"
+done

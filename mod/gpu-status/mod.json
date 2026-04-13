@@ -1,0 +1,6 @@
+{
+  "name": "GPU Status",
+  "description": "Visualizza lo stato della GPU NVIDIA tramite nvidia-smi.",
+  "icon": "mdi:chip",
+  "entry": "mod.html"
+}

@@ -1,0 +1,26 @@
+#!/bin/bash
+set -euo pipefail
+
+trim() {
+  local var="$*"
+  var="${var#${var%%[![:space:]]*}}"
+  var="${var%${var##*[![:space:]]}}"
+  printf '%s' "$var"
+}
+
+driver_line=$(nvidia-smi | awk '/Driver Version:/ {print; exit}')
+driver_version=$(printf '%s\n' "$driver_line" | sed -n 's/.*Driver Version:[[:space:]]*\([^[:space:]]*\).*/\1/p')
+cuda_version=$(printf '%s\n' "$driver_line" | sed -n 's/.*CUDA Version:[[:space:]]*\([^[:space:]]*\).*/\1/p')
+
+IFS=',' read -r gpu temperature utilization memory_used memory_total power_usage power_cap < <(nvidia-smi --query-gpu=name,temperature.gpu,utilization.gpu,memory.used,memory.total,power.draw,power.limit --format=csv,noheader,nounits)
+
+gpu=$(trim "$gpu")
+temperature=$(trim "$temperature")
+utilization=$(trim "$utilization")
+memory_used=$(trim "$memory_used")
+memory_total=$(trim "$memory_total")
+power_usage=$(trim "$power_usage")
+power_cap=$(trim "$power_cap")
+
+echo "gpu_name,driver_version,cuda_version,temperature,utilization,memory_used,memory_total,power_usage,power_cap"
+printf '%s,%s,%s,%s,%s,%s,%s,%s,%s\n' "$gpu" "$driver_version" "$cuda_version" "$temperature" "$utilization" "$memory_used" "$memory_total" "$power_usage" "$power_cap"

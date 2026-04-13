@@ -1,0 +1,3 @@
+Container,VRAM (MB),Processo
+wyoming-piper-gpu,242,piper
+faster-whisper,1790,python3
