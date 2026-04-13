@@ -14,7 +14,7 @@
 
         const newElement = document.createElement('div');
         newElement.setAttribute('widget-id', 'gpu-status');
-        newElement.className = 'widget gpu-status-widget';
+        newElement.className = 'widget gpu-status-widget is-relative';
         newElement.innerHTML = `
 <div class="blur-background"></div>
 <div class="widget-content">

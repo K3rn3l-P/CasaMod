@@ -14,7 +14,7 @@
         if (!existingControl) {
             const controlCard = document.createElement('div');
             controlCard.setAttribute('widget-id', 'widget-sortable-control');
-            controlCard.className = 'widget widget-sortable-control';
+            controlCard.className = 'widget widget-sortable-control is-relative';
             controlCard.innerHTML = `
 <div class="blur-background"></div>
 <div class="widget-content">

@@ -15,7 +15,7 @@
 
     const widget = document.createElement('div');
     widget.setAttribute('widget-id', 'watchtower-status');
-    widget.className = 'widget watchtower-status-widget';
+    widget.className = 'widget watchtower-status-widget is-relative';
     widget.innerHTML = `
 <div class="blur-background"></div>
 <div class="widget-content">
