@@ -2,6 +2,8 @@
 mod/*/nvidia-smi.txt
 mod/*/gpu-processes.txt
 mod/*/containers.json
+mod/*/status.json
+mod/*/watchtower.log
 
 # Ignore generated Python artifacts
 **/__pycache__/

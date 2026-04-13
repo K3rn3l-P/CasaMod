@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-04-13T16:30:00Z",
+  "status": "warning",
+  "message": "Aggiornamenti disponibili per alcuni container.",
+  "updated": ["faster-whisper"],
+  "pending": ["cloudflared-frigate"],
+  "failed": ["watchtower"],
+  "recent_log": "time=\"2026-04-13T16:29:30Z\" msg=\"Found new image for faster-whisper\" container=faster-whisper\n..."
+}
