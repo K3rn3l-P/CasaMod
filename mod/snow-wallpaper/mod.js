@@ -1,3 +1,22 @@
+function isSnowSeasonEnabled() {
+    const defaultMonths = [9, 10, 11, 0, 1, 2]; // ottobre-dicembre + gennaio-marzo
+    const cfg = window.SNOW_WALLPAPER_CONFIG || window.snowWallpaperConfig || {};
+    if (typeof cfg.enabled === 'boolean') {
+        return cfg.enabled;
+    }
+    if (Array.isArray(cfg.months) && cfg.months.length > 0) {
+        return cfg.months.includes(new Date().getMonth());
+    }
+    return defaultMonths.includes(new Date().getMonth());
+}
+
+if (!isSnowSeasonEnabled()) {
+    // Non attivare lo sfondo neve se non siamo in autunno/inverno
+    // Puoi forzare l'attivazione impostando in console:
+    // window.SNOW_WALLPAPER_CONFIG = { enabled: true };
+    return;
+}
+
 // 1. 设置主画布
 const canvas = document.createElement('canvas');
 document.body.appendChild(canvas);
