@@ -95,8 +95,24 @@
       badge.className = `watchtower-badge watchtower-status-${status}`;
       updatedAt.textContent = `Ultimo controllo: ${data.timestamp || '—'}`;
       summary.textContent = data.message || 'Stato aggiornamenti contenitori.';
+      updateCounters(data);
       items.innerHTML = renderItems(data);
       logContent.textContent = formatLogPreview(data.recent_log);
+    }
+
+    function updateCounters(data) {
+      const updatedCount = Array.isArray(data.updated) ? data.updated.length : 0;
+      const pendingCount = Array.isArray(data.pending) ? data.pending.length : 0;
+      const failedCount = Array.isArray(data.failed) ? data.failed.length : 0;
+      const counterEls = counters.querySelectorAll('.watchtower-counter strong');
+      if (counterEls.length === 3) {
+        counterEls[0].textContent = String(updatedCount);
+        counterEls[1].textContent = String(pendingCount);
+        counterEls[2].textContent = String(failedCount);
+      }
+      if (updatedCount + pendingCount + failedCount === 0 && summary.textContent === 'Stato aggiornamenti contenitori.') {
+        summary.textContent = 'Nessuna attività recente di aggiornamento.';
+      }
     }
 
     function formatLogPreview(rawLog) {
@@ -115,11 +131,12 @@
         { key: 'pending', label: 'In attesa', color: 'yellow' },
         { key: 'failed', label: 'Falliti', color: 'red' }
       ];
-      return groups.map(group => {
+      const rendered = groups.map(group => {
         const array = Array.isArray(data[group.key]) ? data[group.key] : [];
         if (!array.length) return '';
         return `<div class="watchtower-item-group watchtower-item-${group.color}"><div class="watchtower-item-group-title">${group.label} (${array.length})</div><div class="watchtower-item-list">${array.map(item => `<span>${escapeHtml(item)}</span>`).join('')}</div></div>`;
       }).join('');
+      return rendered || '<div class="watchtower-no-items">Nessuna attività recente.</div>';
     }
 
     function statusTitling(status) {

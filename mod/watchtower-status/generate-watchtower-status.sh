@@ -116,8 +116,15 @@ while IFS= read -r line; do
   container=""
   if [[ "$line" =~ container=([^[:space:]]+) ]]; then
     container="${BASH_REMATCH[1]}"
+  elif [[ "$line" =~ Stopped[[:space:]]+stale[[:space:]]+container:[[:space:]]*([^[:space:]]+) ]]; then
+    container="${BASH_REMATCH[1]}"
+  elif [[ "$line" =~ Started[[:space:]]+new[[:space:]]+container:[[:space:]]*([^[:space:]]+) ]]; then
+    container="${BASH_REMATCH[1]}"
+  elif [[ "$line" =~ Updated[[:space:]]+container:[[:space:]]*([^[:space:]]+) ]]; then
+    container="${BASH_REMATCH[1]}"
   fi
-  if [[ "$line" =~ [Uu]pdated ]]; then
+
+  if [[ "$line" =~ [Uu]pdated ]] || [[ "$line" =~ Stopped[[:space:]]+stale[[:space:]]+container: ]] || [[ "$line" =~ Started[[:space:]]+new[[:space:]]+container: ]]; then
     [ -n "$container" ] && updated+=("$container")
   elif [[ "$line" =~ ([Nn]ew[[:space:]]image|[Ff]ound[[:space:]]new[[:space:]]image) ]]; then
     [ -n "$container" ] && pending+=("$container")
