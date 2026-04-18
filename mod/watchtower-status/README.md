@@ -29,6 +29,21 @@ cd /DATA/AppData/casamod/mod/watchtower-status
 bash ./generate-watchtower-status.sh
 ```
 
+### Verifica in CLI se ci sono aggiornamenti
+Se Watchtower è in esecuzione come container Docker, puoi controllare direttamente i log:
+
+```bash
+docker ps --format '{{.Names}} {{.Image}}' | grep -i watchtower
+```
+
+Poi leggi gli ultimi log utili:
+
+```bash
+docker logs --tail 50 <watchtower-container> | grep -Ei 'Found new image|No new images found|All containers are up to date|Updated container|Started new container|Stopped stale container'
+```
+
+Se vuoi, sostituisci `<watchtower-container>` con il nome del container trovato al passaggio precedente.
+
 ### Cron consigliato
 ```cron
 */5 * * * * root cd /DATA/AppData/casamod/mod/watchtower-status && bash ./generate-watchtower-status.sh > /dev/null 2>&1
